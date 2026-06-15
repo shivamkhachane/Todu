@@ -1,0 +1,11 @@
+{
+  "email": "user@example.com",
+  "password": "cGFzc3dvcmQxMjM=",
+  "tasks": [
+    {
+      "id": 1781547278462,
+      "date": "2026-06-15",
+      "task": "qwer"
+    }
+  ]
+}

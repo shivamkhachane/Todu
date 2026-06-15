@@ -1,5 +1,137 @@
 .App {
+  min-height: 100vh;
   text-align: center;
+  background-image: linear-gradient(rgba(20, 35, 60, 0.75), rgba(16, 24, 45, 0.85)),
+    url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1500&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #f8f9fa;
+}
+
+.login-page .page-content,
+.home-page .page-content {
+  min-height: calc(100vh - 72px);
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.login-card {
+  max-width: 420px;
+  margin: 0 auto;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.login-card .card-body {
+  color: #1f2937;
+}
+
+.welcome-card {
+  max-width: 760px;
+  margin: 24px auto;
+  background-color: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+  color: #111827;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-board {
+  margin-top: 32px;
+}
+
+.task-card {
+  min-height: 220px;
+  background-image: linear-gradient(rgba(12, 34, 72, 0.5), rgba(7, 12, 31, 0.5)),
+    url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80');
+  background-size: cover;
+  background-position: center;
+  border: none;
+}
+
+.task-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.1), rgba(15, 23, 42, 0.7));
+}
+
+.task-card .card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.task-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.task-date {
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.92);
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.edit-button {
+  min-width: 77px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #111;
+}
+
+.edit-button:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.task-card-text {
+  text-align: justify;
+  white-space: pre-wrap;
+}
+
+.task-card .btn-group .btn {
+  min-width: 54px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #111;
+}
+
+.task-card .btn-group .btn:hover {
+  background-color: rgba(255, 255, 255, 1);
+  color: #111;
+}
+
+.navbar {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand,
+.navbar span {
+  color: #24324a !important;
 }
 
 .App-logo {
@@ -35,4 +167,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.app-footer {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #24324a;
+  padding: 24px 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.footer-content h5,
+.footer-content h6 {
+  margin-bottom: 0.5rem;
+}
+
+.footer-content p,
+.footer-content small {
+  margin-bottom: 0.25rem;
+  color: #475569;
+}
+
+.footer-content {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }

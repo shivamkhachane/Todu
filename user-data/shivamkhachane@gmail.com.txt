@@ -1,0 +1,11 @@
+{
+  "email": "shivamkhachane@gmail.com",
+  "password": "MTIzNA==",
+  "tasks": [
+    {
+      "id": 1781547250774,
+      "date": "2026-06-14",
+      "task": "asdc"
+    }
+  ]
+}
