@@ -7,7 +7,7 @@ import { DashboardBody } from './MyComponents/DashboardBody';
 import { Footer } from './MyComponents/Footer';
 
 const encodePassword = (password) => btoa(password);
-const API_BASE_URL = process.env.REACT_APP_API_BASE || (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '');
+const API_BASE_URL = window.API_BASE_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '');
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
