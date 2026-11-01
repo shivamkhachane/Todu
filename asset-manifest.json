@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/Todu/static/css/main.a7c055e9.css",
-    "main.js": "/Todu/static/js/main.f41b843e.js",
+    "main.js": "/Todu/static/js/main.b7c8831f.js",
     "static/js/453.40ad9881.chunk.js": "/Todu/static/js/453.40ad9881.chunk.js",
     "static/media/logo.png": "/Todu/static/media/logo.ed6ed74250f26bf57c62.png",
     "index.html": "/Todu/index.html",
     "main.a7c055e9.css.map": "/Todu/static/css/main.a7c055e9.css.map",
-    "main.f41b843e.js.map": "/Todu/static/js/main.f41b843e.js.map",
+    "main.b7c8831f.js.map": "/Todu/static/js/main.b7c8831f.js.map",
     "453.40ad9881.chunk.js.map": "/Todu/static/js/453.40ad9881.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a7c055e9.css",
-    "static/js/main.f41b843e.js"
+    "static/js/main.b7c8831f.js"
   ]
 }
