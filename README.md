@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Todu
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Todu is a React task planner with account sign-in, text and date filtering, date sorting, task creation, floating-window task editing, completion and deletion with undo, and date-range export. The interface supports light and dark themes and adapts to mobile screens.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+Install dependencies and start the backend and frontend in separate terminals:
 
-### `npm start`
+```sh
+npm install
+npm run server
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The backend listens on port `5000`; the Create React App development server proxies API requests to it. The frontend reads the production API URL from [`public/config.js`](./public/config.js).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Authentication and API
 
-### `npm test`
+The backend hashes passwords with Node's scrypt implementation. Existing base64-encoded passwords are upgraded to salted scrypt hashes on the user's next successful login. New registrations require passwords of at least eight characters.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Login and registration return a signed bearer token that expires after 30 minutes. The frontend keeps the token in `sessionStorage` so a page refresh in the same tab can restore the session. Because JavaScript can access session storage, keep the frontend free of cross-site scripting vulnerabilities. Signing out revokes the token while the backend process is running; after a backend restart, any token remains valid only until its short expiration.
 
-### `npm run build`
+Task endpoints require the bearer token and derive the account from the verified token rather than trusting an email supplied by the browser:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `GET /api/health`
+- `POST /api/auth/login`
+- `POST /api/auth/register`
+- `GET /api/auth/session`
+- `POST /api/auth/logout`
+- `GET /api/tasks`
+- `POST /api/tasks`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Completed state remains an optional `completed` property on each task. Existing records without it remain open tasks. The Express service and file storage are in [`server.js`](./server.js).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For local development, the server creates an ephemeral session secret if `SESSION_SECRET` is not set; sessions stop working when the server restarts. On Render, set `SESSION_SECRET` to a unique random value of at least 32 characters before deploying the backend. For example, generate one in PowerShell with:
 
-### `npm run eject`
+```powershell
+$bytes = New-Object byte[] 32
+[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+[Convert]::ToBase64String($bytes)
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The Render blueprint declares this as a manually configured secret. Do not commit the value to the repository.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Production and deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Build the static site with:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```sh
+npm run build
+```
 
-## Learn More
+The `homepage` setting in `package.json` configures the GitHub Pages repository base path. To publish the build using the configured `gh-pages` script, run:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```sh
+npm run deploy
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The API origin used by the deployed frontend is configured in [`public/config.js`](./public/config.js). The backend deployment configuration remains in [`render.yaml`](./render.yaml).
 
-### Code Splitting
+Deploy the backend before the frontend: the updated frontend requires the new authenticated task API. Configure `SESSION_SECRET` in the Render dashboard, deploy the backend, then publish the GitHub Pages build. Do not expose the new frontend to users while Render is still running the older unauthenticated API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Run backend authentication tests with:
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```sh
+npm run test:server
+```

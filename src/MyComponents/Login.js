@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const Login = ({ onLogin, onRegister }) => {
+export const Login = ({ onLogin, onRegister, isSubmitting, connectionError }) => {
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,69 +43,83 @@ export const Login = ({ onLogin, onRegister }) => {
   };
 
   return (
-    <div className="login-card card shadow-sm">
-      <div className="card-body">
-        <h2 className="card-title mb-3">{mode === 'login' ? 'Login' : 'Register'}</h2>
-        <p className="text-muted mb-4">
-          {mode === 'login'
-            ? 'Enter your credentials to continue.'
-            : 'Create a new account to access the dashboard.'}
+    <div className="auth-layout">
+      <section className="auth-intro">
+        <div className="eyebrow">A CALMER WAY TO GET THINGS DONE</div>
+        <h1>Make room for what matters.</h1>
+        <p>
+          Keep your plans in one thoughtful space. A clear list is a good place to begin.
         </p>
-        {error && <div className="alert alert-danger">{error}</div>}
+        <div className="auth-note">
+          <span aria-hidden="true" className="auth-note-icon">✳</span>
+          <span>Small steps add up. Start with one.</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="auth-title" className="auth-card">
+        <div className="eyebrow">{mode === 'login' ? 'WELCOME BACK' : 'YOUR NEXT CHAPTER'}</div>
+        <h2 id="auth-title">{mode === 'login' ? 'Sign in to Todu' : 'Create your account'}</h2>
+        <p className="auth-subtitle">
+          {mode === 'login'
+            ? 'Pick up right where you left off.'
+            : 'A little structure can make a big difference.'}
+        </p>
+        {connectionError && <div className="inline-alert" role="status">{connectionError}</div>}
+        {error && <div className="inline-alert" role="alert">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
+          <div className="field-group">
+            <label htmlFor="email">Email address</label>
             <input
+              autoComplete="email"
               id="email"
               type="email"
-              className="form-control"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="you@example.com"
+              required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
+          <div className="field-group">
+            <label htmlFor="password">Password</label>
             <input
+              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
               id="password"
               type="password"
-              className="form-control"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter password"
+              placeholder="Enter your password"
+              required
             />
           </div>
           {mode === 'register' && (
-            <div className="mb-3">
-              <label htmlFor="confirmPassword" className="form-label">
-                Confirm Password
-              </label>
+            <div className="field-group">
+              <label htmlFor="confirmPassword">Confirm password</label>
               <input
+                autoComplete="new-password"
                 id="confirmPassword"
                 type="password"
-                className="form-control"
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
-                placeholder="Re-enter password"
+                placeholder="Enter your password again"
+                required
               />
             </div>
           )}
-          <button type="submit" className="btn btn-primary w-100">
-            {mode === 'login' ? 'Sign In' : 'Create Account'}
+          <button className="button-primary auth-submit" disabled={isSubmitting} type="submit">
+            {isSubmitting
+              ? 'Please wait…'
+              : mode === 'login'
+                ? 'Sign in'
+                : 'Create account'}
           </button>
         </form>
-        <div className="mt-3 text-center">
-          <button type="button" className="btn btn-link p-0" onClick={toggleMode}>
-            {mode === 'login'
-              ? 'Need an account? Register now'
-              : 'Already registered? Sign in'}
+        <div className="auth-switch">
+          {mode === 'login' ? 'New to Todu?' : 'Already have an account?'}
+          <button disabled={isSubmitting} onClick={toggleMode} type="button">
+            {mode === 'login' ? 'Create an account' : 'Sign in instead'}
           </button>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
